@@ -89,6 +89,8 @@ def _read_initial_balance():
     except (TypeError, ValueError):
         return 0.0
 
+import random
+
 
 INITIAL_BALANCE = _read_initial_balance()
 
@@ -137,6 +139,15 @@ def hash_password(raw_password):
 def verify_password(password_hash, raw_password):
     """Check whether the entered password matches the stored hash."""
     return check_password_hash(password_hash, raw_password)
+
+def generate_random_num():
+    """"function to generate two rando"""
+    return random.randint(1, 100), random.randint(1, 100)
+
+    num_list = []
+    for _ in range(2):
+        num_list.append(random.randint(1, 100))
+
 
 
 def generate_account_number():
