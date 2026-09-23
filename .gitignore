@@ -1,4 +1,4 @@
 .env
 venv
 instance/
-pycache
+__pycache__/
