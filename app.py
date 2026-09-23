@@ -146,6 +146,15 @@ def parse_amount(raw_amount):
         return None
 
 
+def generate_random():
+    """Generate a random 4-digit number."""
+    num_list = []
+    for _ in range(4):
+        num_list.append(str(random.randint(0, 9)))
+    num = int("".join(num_list))
+    return num
+
+
 @login_manager.user_loader
 def load_user(user_id):
     return db.session.get(User, int(user_id))
