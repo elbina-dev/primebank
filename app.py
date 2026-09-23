@@ -1,3 +1,10 @@
+"""PrimeBank Flask application.
+
+This application provides a simple online banking experience with
+user authentication, account creation, profile image uploads,
+balance management, deposits, withdrawals, and transfers.
+"""
+
 # Import Libraries
 import os
 import random
@@ -45,9 +52,12 @@ MAX_UPLOAD_BYTES = 2 * 1024 * 1024  # 2 MB
 
 
 def _read_initial_balance():
-    """INITIAL_BALANCE comes from the environment as a string (or is
-    missing). Coerce it to a float so the column default is never a
-    string, and fall back to 0.0 if it's unset or malformed."""
+    """Read the starting balance from the environment.
+
+    Returns:
+        float: A numeric starting balance, or 0.0 if the value is missing
+        or invalid.
+    """
     raw = os.getenv("INITIAL_BALANCE", "0")
     try:
         return float(raw)
@@ -95,14 +105,17 @@ class User(UserMixin, db.Model):
 
 # Helper Functions
 def hash_password(raw_password):
+    """Hash a plain text password using Werkzeug security helpers."""
     return generate_password_hash(raw_password)
 
 
 def verify_password(password_hash, raw_password):
+    """Check whether the entered password matches the stored hash."""
     return check_password_hash(password_hash, raw_password)
 
 
 def generate_account_number():
+    """Generate a unique 10-character bank account number for a user."""
     prefix = "002"
     while True:
         num = [str(random.randint(0, 9)) for _ in range(7)]
@@ -112,6 +125,7 @@ def generate_account_number():
 
 
 def is_allowed_image_format(image_filename):
+    """Return True when the uploaded file has an approved image extension."""
     if not image_filename.strip():
         return False
     ext = image_filename.rsplit(".", 1)[-1].lower().strip()
@@ -121,8 +135,11 @@ def is_allowed_image_format(image_filename):
 
 
 def parse_amount(raw_amount):
-    """Safely turn a form value into a positive-or-not float.
-    Returns None if the value isn't a valid number."""
+    """Convert an incoming form value to a rounded numeric amount.
+
+    Returns:
+        float | None: A rounded amount, or None if the input is not valid.
+    """
     try:
         return round(float(raw_amount), 2)
     except (TypeError, ValueError):
@@ -147,6 +164,7 @@ with app.app_context():
 @app.route("/bank")
 @login_required
 def bank():
+    """Display the authenticated user's bank dashboard."""
     return render_template("bank.html", user=current_user)
 
 @app.route("/about")
@@ -156,13 +174,21 @@ def about():
 @app.route("/logout")
 @login_required
 def logout():
+    """Log out the current user and redirect them to the login page."""
     logout_user()
     flash("User Logged Out Successfully", "success")
     return redirect(url_for("login"))
 
 
+@app.route("/about")
+def about():
+    """Display the about page for the application."""
+    return render_template("about.html")
+
+
 @app.route("/login", methods=["GET", "POST"])
 def login():
+    """Authenticate a user using email or username and password."""
     if current_user.is_authenticated:
         return redirect(url_for("bank"))
     if request.method == "POST":
@@ -185,6 +211,7 @@ def login():
 
 @app.route("/signup", methods=["GET", "POST"])
 def signup():
+    """Create a new user account and save it to the database."""
     if current_user.is_authenticated:
         return redirect(url_for("bank"))
     if request.method == "POST":
@@ -252,6 +279,7 @@ def signup():
 @app.route("/deposit", methods=["POST"])
 @login_required
 def deposit():
+    """Add money to the logged-in user's current balance."""
     amount = parse_amount(request.form.get("amount"))
     if amount is None or amount <= 0:
         flash("Invalid Amount", "error")
@@ -265,6 +293,7 @@ def deposit():
 @app.route("/withdraw", methods=["POST"])
 @login_required
 def withdraw():
+    """Withdraw money from the logged-in user's account if funds allow."""
     amount = parse_amount(request.form.get("amount"))
     if amount is None or amount <= 0:
         flash("Invalid Amount", "error")
@@ -280,6 +309,7 @@ def withdraw():
 @app.route("/transfer", methods=["POST"])
 @login_required
 def transfer():
+    """Transfer funds from one account to another valid account."""
     amount = parse_amount(request.form.get("amount"))
     receiver_account = request.form.get("receiver_account", "").strip()
 
