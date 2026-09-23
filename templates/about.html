@@ -1,0 +1,343 @@
+{% extends "base.html" %}
+
+{% block title %}About Us — PrimeBank{% endblock %}
+
+{% block content %}
+<section class="about-page">
+
+    <!-- Hero -->
+    <section class="about-hero">
+        <div class="about-hero-content">
+            <span class="about-eyebrow">ABOUT PRIMEBANK</span>
+
+            <h1>
+                Banking made
+                <span>simple.</span>
+            </h1>
+
+            <p>
+                PrimeBank is built to make everyday banking easier, clearer,
+                and more accessible. We give you the tools you need to manage
+                your money with confidence.
+            </p>
+        </div>
+    </section>
+
+
+    <!-- Our Story -->
+    <section class="about-section">
+        <div class="about-grid">
+            <div>
+                <span class="about-eyebrow">OUR STORY</span>
+                <h2>Designed around your financial life.</h2>
+            </div>
+
+            <div class="about-text">
+                <p>
+                    At PrimeBank, we believe banking should feel straightforward.
+                    From checking your balance to moving money, our goal is to
+                    provide a clean and dependable experience.
+                </p>
+
+                <p>
+                    We combine modern technology with a simple approach to banking,
+                    giving customers an easy way to stay connected to their money
+                    wherever they are.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Values -->
+    <section class="about-values">
+        <div class="values-heading">
+            <span class="about-eyebrow">WHAT WE VALUE</span>
+            <h2>Built on the things that matter.</h2>
+        </div>
+
+        <div class="values-grid">
+
+            <article class="value-card">
+                <div class="value-number">01</div>
+                <h3>Simplicity</h3>
+                <p>
+                    Banking shouldn't be complicated. We keep our experience
+                    clear and easy to understand.
+                </p>
+            </article>
+
+            <article class="value-card">
+                <div class="value-number">02</div>
+                <h3>Security</h3>
+                <p>
+                    We take the protection of your account and financial
+                    information seriously.
+                </p>
+            </article>
+
+            <article class="value-card">
+                <div class="value-number">03</div>
+                <h3>Accessibility</h3>
+                <p>
+                    We create practical banking tools that are easy to use
+                    whenever you need them.
+                </p>
+            </article>
+
+        </div>
+    </section>
+
+
+    <!-- CTA -->
+    <section class="about-cta">
+        <div>
+            <span class="about-eyebrow">PRIMEBANK</span>
+            <h2>Your money. Your goals. Your bank.</h2>
+        </div>
+
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('bank') }}" class="btn btn-primary">
+                Go to dashboard
+            </a>
+        {% else %}
+            <a href="{{ url_for('login') }}" class="btn btn-primary">
+                Get started
+            </a>
+        {% endif %}
+    </section>
+
+</section>
+{% endblock %}
+
+/* =========================================
+   ABOUT PAGE
+   ========================================= */
+
+.about-page {
+    width: 100%;
+}
+
+/* ---------- Hero ---------- */
+
+.about-hero {
+    padding: 100px 0 110px;
+    border-bottom: 1px solid var(--border-color, #e5e5e5);
+}
+
+.about-hero-content {
+    max-width: 850px;
+}
+
+.about-eyebrow {
+    display: inline-block;
+    margin-bottom: 22px;
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.75rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: #777;
+}
+
+.about-hero h1 {
+    margin: 0;
+    font-family: "Newsreader", serif;
+    font-size: clamp(3.5rem, 8vw, 7rem);
+    line-height: 0.95;
+    font-weight: 500;
+    letter-spacing: -0.045em;
+    color: #171717;
+}
+
+.about-hero h1 span {
+    font-style: italic;
+}
+
+.about-hero p {
+    max-width: 650px;
+    margin: 35px 0 0;
+    font-family: "Work Sans", sans-serif;
+    font-size: 1.08rem;
+    line-height: 1.8;
+    color: #666;
+}
+
+
+/* ---------- Story ---------- */
+
+.about-section {
+    padding: 100px 0;
+    border-bottom: 1px solid var(--border-color, #e5e5e5);
+}
+
+.about-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 80px;
+    align-items: start;
+}
+
+.about-grid h2,
+.about-values h2,
+.about-cta h2 {
+    margin: 0;
+    font-family: "Newsreader", serif;
+    font-size: clamp(2.4rem, 4vw, 4rem);
+    line-height: 1.05;
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    color: #171717;
+}
+
+.about-text {
+    max-width: 600px;
+}
+
+.about-text p {
+    margin: 0 0 24px;
+    font-family: "Work Sans", sans-serif;
+    font-size: 1rem;
+    line-height: 1.85;
+    color: #666;
+}
+
+.about-text p:last-child {
+    margin-bottom: 0;
+}
+
+
+/* ---------- Values ---------- */
+
+.about-values {
+    padding: 100px 0;
+}
+
+.values-heading {
+    max-width: 650px;
+    margin-bottom: 55px;
+}
+
+.values-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 20px;
+}
+
+.value-card {
+    min-height: 300px;
+    padding: 35px;
+    border: 1px solid #e5e5e5;
+    background: #fff;
+    transition:
+        transform 0.25s ease,
+        box-shadow 0.25s ease;
+}
+
+.value-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 40px rgba(0, 0, 0, 0.06);
+}
+
+.value-number {
+    margin-bottom: 70px;
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #999;
+}
+
+.value-card h3 {
+    margin: 0 0 15px;
+    font-family: "Newsreader", serif;
+    font-size: 2rem;
+    font-weight: 500;
+    color: #171717;
+}
+
+.value-card p {
+    margin: 0;
+    font-family: "Work Sans", sans-serif;
+    font-size: 0.92rem;
+    line-height: 1.7;
+    color: #777;
+}
+
+
+/* ---------- CTA ---------- */
+
+.about-cta {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 40px;
+    padding: 70px 0 100px;
+}
+
+.about-cta h2 {
+    max-width: 650px;
+}
+
+.about-cta .btn {
+    flex-shrink: 0;
+    text-decoration: none;
+}
+
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 800px) {
+
+    .about-hero {
+        padding: 70px 0 80px;
+    }
+
+    .about-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+
+    .about-section,
+    .about-values {
+        padding: 75px 0;
+    }
+
+    .values-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .value-card {
+        min-height: auto;
+    }
+
+    .value-number {
+        margin-bottom: 45px;
+    }
+
+    .about-cta {
+        align-items: flex-start;
+        flex-direction: column;
+        padding: 60px 0 80px;
+    }
+}
+
+@media (max-width: 500px) {
+
+    .about-hero h1 {
+        font-size: 3.4rem;
+    }
+
+    .about-hero p {
+        font-size: 0.95rem;
+    }
+
+    .about-grid h2,
+    .about-values h2,
+    .about-cta h2 {
+        font-size: 2.5rem;
+    }
+
+    .value-card {
+        padding: 28px;
+    }
+}
