@@ -51,6 +51,31 @@ ALLOWED_FORMATS = ["jpg", "jpeg", "png"]
 MAX_UPLOAD_BYTES = 2 * 1024 * 1024  # 2 MB
 
 
+def generate_random_num():
+    """function to generate a list - 5 num - of further adjustable nunber from a prelist see from os"""
+    seed_list = os.getenv("SEED_LIST", "1,2,3,4,5,6,7,8,9").split(",")
+    num_list=[random.choice(seed_list) for _ in range(7)]
+    num_list = [num_list[i] for i in range(5)]
+    num_list_int=[]
+    for i in num_list:
+        """use the seed to create random values"""
+        i = int(i)
+        num = str(random.randint(0, i))
+        num_list_int.append(i)
+    return num_list_int
+        
+def generate_random_number():
+    """Function to generate 3 random numbers"""
+    num_list = []
+
+    for i in range(3):
+        number = random.randint(1, 200)
+        num_list.append(number)
+
+    return num_list
+
+print(generate_random_number())
+
 def _read_initial_balance():
     """Read the starting balance from the environment.
 
@@ -155,6 +180,15 @@ def parse_amount(raw_amount):
         return round(float(raw_amount), 2)
     except (TypeError, ValueError):
         return None
+
+
+def generate_random():
+    """Generate a random 4-digit number."""
+    num_list = []
+    for _ in range(4):
+        num_list.append(str(random.randint(0, 9)))
+    num = int("".join(num_list))
+    return num
 
 
 @login_manager.user_loader
