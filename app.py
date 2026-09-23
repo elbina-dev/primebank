@@ -115,7 +115,7 @@ def verify_password(password_hash, raw_password):
     """Check whether the entered password matches the stored hash."""
     return check_password_hash(password_hash, raw_password)
 
-def generate_two_random_numbers():
+def generate_random_num():
     """"function to generate two rando"""
     return random.randint(1, 100), random.randint(1, 100)
 
