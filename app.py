@@ -54,15 +54,15 @@ MAX_UPLOAD_BYTES = 2 * 1024 * 1024  # 2 MB
 def generate_random_num():
     """function to generate a list - 5 num - of further adjustable nunber from a prelist see from os"""
     seed_list = os.getenv("SEED_LIST", "1,2,3,4,5,6,7,8,9").split(",")
-    num_list=[random.choice(seed_list) for _ in range(7)]
-    num_list = [num_list[i] for i in range(5)]
-    num_list_int=[]
-    for i in num_list:
+    number_list =[random.choice(seed_list) for _ in range(7)]
+    number_list =[number_list[i] for i in range(5)]
+    number_list_int=[]
+    for i in  number_list :
         """use the seed to create random values"""
         i = int(i)
         num = str(random.randint(0, i))
-        num_list_int.append(i)
-    return num_list_int
+        number_list_int.append(i)
+    return  number_list_int
         
 def generate_random_number():
     """Function to generate 3 random numbers"""
