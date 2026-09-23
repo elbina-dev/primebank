@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 48 48" fill="none" role="img" aria-label="PrimeBank">
+  <path d="M24 2 L44 10 V22 C44 34 36 43 24 46 C12 43 4 34 4 22 V10 Z" fill="#0E3B2E"/>
+  <path d="M24 2 L44 10 V22 C44 34 36 43 24 46 C12 43 4 34 4 22 V10 Z" stroke="#C89B3C" stroke-width="1.5"/>
+  <path d="M17 33 V17 H25.2C28 17 30 18.9 30 21.6C30 24.3 28 26.1 25.2 26.1H20.6V33H17Z" fill="#F3F1E9"/>
+  <path d="M20.6 20 H25 C26.3 20 27 20.7 27 21.6C27 22.5 26.3 23.1 25 23.1H20.6V20Z" fill="#0E3B2E"/>
+</svg>

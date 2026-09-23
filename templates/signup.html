@@ -1,0 +1,98 @@
+{% extends "base.html" %}
+{% block title %}Create your account — PrimeBank{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+
+{% block content %}
+<div class="auth-shell">
+  <aside class="auth-brand">
+    <div class="auth-brand-inner">
+      <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="" class="auth-brand-mark">
+      <h1>Open a PrimeBank account</h1>
+      <p class="auth-tagline">A couple of minutes now, and your account number is ready to use.</p>
+      <ul class="auth-facts">
+        <li><strong>Free</strong> No opening fees or minimum balance.</li>
+        <li><strong>Instant</strong> Your account number is generated right away.</li>
+        <li><strong>Secure</strong> Your password is never stored in plain text.</li>
+      </ul>
+    </div>
+  </aside>
+
+  <section class="auth-panel">
+    <div class="auth-card">
+      <h2>Create your account</h2>
+      <p class="auth-subtitle">Fill in your details below.</p>
+
+      <form method="POST" action="{{ url_for('signup') }}" enctype="multipart/form-data" class="auth-form" id="signupForm" novalidate>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <div class="avatar-picker">
+          <img src="{{ url_for('static', filename='images/avatar-placeholder.svg') }}" alt="" class="avatar-preview" id="avatarPreview">
+          <div>
+            <label for="image_file" class="btn btn-ghost" style="border-color:var(--border); color:var(--primary-dark);">Add photo</label>
+            <input type="file" id="image_file" name="image_file" accept=".jpg,.jpeg,.png">
+            <p class="field-hint" style="margin-top:6px;">Optional. JPG or PNG, up to 2MB.</p>
+          </div>
+        </div>
+
+        <div class="field-row">
+          <div class="field">
+            <label for="firstname">First name</label>
+            <input type="text" id="firstname" name="firstname" required autocomplete="given-name">
+          </div>
+          <div class="field">
+            <label for="lastname">Last name</label>
+            <input type="text" id="lastname" name="lastname" required autocomplete="family-name">
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="username">Username</label>
+          <input type="text" id="username" name="username" required autocomplete="username">
+        </div>
+
+        <div class="field">
+          <label for="email">Email address</label>
+          <input type="email" id="email" name="email" required autocomplete="email">
+        </div>
+
+        <div class="field">
+          <label for="phone">Phone number</label>
+          <input type="tel" id="phone" name="phone" autocomplete="tel">
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="password-field">
+            <input type="password" id="password" name="password" required minlength="8" autocomplete="new-password">
+            <button type="button" class="password-toggle" data-toggle-password="password" aria-label="Show password">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+          <p class="field-hint">At least 8 characters.</p>
+        </div>
+
+        <div class="field" id="confirmField">
+          <label for="confirm_password">Confirm password</label>
+          <div class="password-field">
+            <input type="password" id="confirm_password" name="confirm_password" required autocomplete="new-password">
+            <button type="button" class="password-toggle" data-toggle-password="confirm_password" aria-label="Show password">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+          <p class="field-error" id="confirmError">Passwords do not match.</p>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Create account</button>
+      </form>
+
+      <p class="auth-switch">Already have an account? <a href="{{ url_for('login') }}">Log in</a></p>
+    </div>
+  </section>
+</div>
+{% endblock %}

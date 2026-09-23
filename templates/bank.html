@@ -1,0 +1,115 @@
+{% extends "base.html" %}
+{% block title %}Your account — PrimeBank{% endblock %}
+
+{% block content %}
+<section class="dashboard">
+  <p class="dashboard-greeting">Welcome back, {{ user.firstname.title() }}.</p>
+
+  <div class="balance-card">
+    <div class="balance-card-top">
+      <div>
+        <p class="balance-label">Available balance</p>
+        <p class="balance-amount">&#8358;<span id="balanceValue">{{ "{:,.2f}".format(user.balance) }}</span></p>
+      </div>
+      {% if user.image %}
+        <img src="{{ url_for('static', filename='upload/' + user.image) }}" alt="" class="profile-thumb">
+      {% else %}
+        <img src="{{ url_for('static', filename='images/avatar-placeholder.svg') }}" alt="" class="profile-thumb">
+      {% endif %}
+    </div>
+    <div class="account-number-row">
+      <span>Account number</span>
+      <button type="button" class="account-number" id="accountNumberBtn" data-account="{{ user.account_number }}">
+        <span class="copy-label">{{ user.account_number }}</span>
+        <span class="copied-label">Copied</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+          <rect x="8" y="8" width="12" height="12" rx="2"/>
+          <path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2"/>
+        </svg>
+      </button>
+    </div>
+  </div>
+
+  <div class="action-grid">
+    <button type="button" class="action-card" data-open-modal="depositModal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M12 3v12m0 0-4-4m4 4 4-4"/>
+        <path d="M4 17v2a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-2"/>
+      </svg>
+      <span>Deposit</span>
+    </button>
+    <button type="button" class="action-card" data-open-modal="withdrawModal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M12 21V9m0 0 4 4m-4-4-4 4"/>
+        <path d="M4 7V5a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v2"/>
+      </svg>
+      <span>Withdraw</span>
+    </button>
+    <button type="button" class="action-card" data-open-modal="transferModal">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+        <path d="M7 7h13M20 7l-4-4M20 7l-4 4"/>
+        <path d="M17 17H4M4 17l4 4M4 17l4-4"/>
+      </svg>
+      <span>Transfer</span>
+    </button>
+  </div>
+</section>
+
+<div class="modal-backdrop" id="modalBackdrop" hidden></div>
+
+<div class="modal" id="depositModal" hidden role="dialog" aria-modal="true" aria-labelledby="depositTitle">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h2 id="depositTitle">Deposit funds</h2>
+      <button type="button" class="modal-close" data-close-modal aria-label="Close">&times;</button>
+    </div>
+    <form method="POST" action="{{ url_for('deposit') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="field">
+        <label for="depositAmount">Amount (&#8358;)</label>
+        <input type="number" step="0.01" min="0.01" id="depositAmount" name="amount" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Deposit</button>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="withdrawModal" hidden role="dialog" aria-modal="true" aria-labelledby="withdrawTitle">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h2 id="withdrawTitle">Withdraw funds</h2>
+      <button type="button" class="modal-close" data-close-modal aria-label="Close">&times;</button>
+    </div>
+    <p class="modal-note">Available balance: &#8358;<span id="withdrawAvailable">{{ "{:,.2f}".format(user.balance) }}</span></p>
+    <form method="POST" action="{{ url_for('withdraw') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="field">
+        <label for="withdrawAmount">Amount (&#8358;)</label>
+        <input type="number" step="0.01" min="0.01" max="{{ user.balance }}" id="withdrawAmount" name="amount" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Withdraw</button>
+    </form>
+  </div>
+</div>
+
+<div class="modal" id="transferModal" hidden role="dialog" aria-modal="true" aria-labelledby="transferTitle">
+  <div class="modal-dialog">
+    <div class="modal-header">
+      <h2 id="transferTitle">Transfer funds</h2>
+      <button type="button" class="modal-close" data-close-modal aria-label="Close">&times;</button>
+    </div>
+    <form method="POST" action="{{ url_for('transfer') }}">
+      <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+      <div class="field">
+        <label for="receiverAccount">Receiver's account number</label>
+        <input type="text" inputmode="numeric" id="receiverAccount" name="receiver_account" required>
+      </div>
+      <div class="field">
+        <label for="transferAmount">Amount (&#8358;)</label>
+        <input type="number" step="0.01" min="0.01" max="{{ user.balance }}" id="transferAmount" name="amount" required>
+      </div>
+      <button type="submit" class="btn btn-primary btn-block">Transfer</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

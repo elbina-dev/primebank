@@ -1,0 +1,53 @@
+{% extends "base.html" %}
+{% block title %}Log in — PrimeBank{% endblock %}
+{% block body_class %}auth-page{% endblock %}
+
+{% block content %}
+<div class="auth-shell">
+  <aside class="auth-brand">
+    <div class="auth-brand-inner">
+      <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="" class="auth-brand-mark">
+      <h1>PrimeBank</h1>
+      <p class="auth-tagline">Straightforward banking, built around your money moving when you need it to.</p>
+      <ul class="auth-facts">
+        <li><strong>No queues</strong> Deposit, withdraw and transfer in seconds, any time.</li>
+        <li><strong>Clear numbers</strong> Your balance and account number, always in view.</li>
+        <li><strong>One account</strong> Everything you need, nothing you don't.</li>
+      </ul>
+    </div>
+  </aside>
+
+  <section class="auth-panel">
+    <div class="auth-card">
+      <h2>Log in to your account</h2>
+      <p class="auth-subtitle">Enter your details to continue.</p>
+
+      <form method="POST" action="{{ url_for('login') }}" class="auth-form" novalidate>
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+
+        <div class="field">
+          <label for="email_or_username">Email or username</label>
+          <input type="text" id="email_or_username" name="email_or_username" required autocomplete="username" autofocus>
+        </div>
+
+        <div class="field">
+          <label for="password">Password</label>
+          <div class="password-field">
+            <input type="password" id="password" name="password" required autocomplete="current-password">
+            <button type="button" class="password-toggle" data-toggle-password="password" aria-label="Show password">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+                <path d="M2 12s3.6-7 10-7 10 7 10 7-3.6 7-10 7-10-7-10-7Z"/>
+                <circle cx="12" cy="12" r="3"/>
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <button type="submit" class="btn btn-primary btn-block">Log in</button>
+      </form>
+
+      <p class="auth-switch">New to PrimeBank? <a href="{{ url_for('signup') }}">Create an account</a></p>
+    </div>
+  </section>
+</div>
+{% endblock %}

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}PrimeBank{% endblock %}</title>
+
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='images/favicon.svg') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500;6..72,600&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  {% block extra_head %}{% endblock %}
+</head>
+<body class="{% block body_class %}{% endblock %}">
+
+  <header class="site-header">
+    <div class="header-inner">
+      <a class="brand" href="{{ url_for('bank') if current_user.is_authenticated else url_for('login') }}">
+        <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="" class="brand-mark">
+        <span class="brand-name">PrimeBank</span>
+      </a>
+      {% if current_user.is_authenticated %}
+      <nav class="header-nav">
+        <span class="header-greeting">Hi, {{ current_user.firstname.title() }}</span>
+        <a href="{{ url_for('logout') }}" class="btn btn-ghost btn-small">Log out</a>
+      </nav>
+      {% endif %}
+    </div>
+  </header>
+
+  <main class="site-main">
+    <div class="flash-stack" id="flashStack">
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for category, message in messages %}
+            <div class="flash flash-{{ 'error' if category == 'error' else 'success' }}" role="status">
+              <span>{{ message }}</span>
+              <button type="button" class="flash-close" aria-label="Dismiss message">&times;</button>
+            </div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+    </div>
+
+    {% block content %}{% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <span>&copy; {{ current_year }} PrimeBank. All rights reserved.</span>
+      <nav class="footer-links">
+        <a href="#">Security</a>
+        <a href="#">Support</a>
+        <a href="#">Privacy</a>
+      </nav>
+    </div>
+  </footer>
+
+  <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  {% block extra_scripts %}{% endblock %}
+</body>
+</html>
