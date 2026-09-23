@@ -64,8 +64,17 @@ def generate_random_num():
         num_list_int.append(i)
     return num_list_int
         
+def generate_random_number():
+    """Function to generate 3 random numbers"""
+    num_list = []
 
+    for i in range(3):
+        number = random.randint(1, 200)
+        num_list.append(number)
 
+    return num_list
+
+print(generate_random_number())
 
 def _read_initial_balance():
     """Read the starting balance from the environment.
