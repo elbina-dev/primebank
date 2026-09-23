@@ -51,6 +51,28 @@ ALLOWED_FORMATS = ["jpg", "jpeg", "png"]
 MAX_UPLOAD_BYTES = 2 * 1024 * 1024  # 2 MB
 
 
+
+
+
+
+
+def generate_random_num():
+    """Function to generate 3 random numbers"""
+    num_list = []
+
+    for i in range(3):
+        number = random.randint(1, 200)
+        num_list.append(number)
+
+    return num_list
+
+print(generate_random_num())
+
+
+
+
+
+
 def _read_initial_balance():
     """Read the starting balance from the environment.
 
